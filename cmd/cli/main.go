@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"os/exec"
 	"syshealthcli/pkg/internals"
 	"time"
 
+	"github.com/gen2brain/beeep"
 	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/mem"
 )
@@ -59,10 +59,15 @@ func checkUsage(cpuUsage float64,memUsage float64,logFile *os.File){
 
 func notify(title, message string) {
     // uses `osascript` for macOS notifications
-    cmd := exec.Command("osascript", "-e", fmt.Sprintf(`display notification "%s" with title "%s"`, message, title))
-    err := cmd.Run()
+    // cmd := exec.Command("osascript", "-e", fmt.Sprintf(`display notification "%s" with title "%s"`, message, title))
+    // err := cmd.Run()
+    // if err != nil {
+    //     fmt.Println("Error sending notification:", err)
+    // }
+
+		 err := beeep.Alert(title, message, "")
     if err != nil {
-        fmt.Println("Error sending notification:", err)
+        fmt.Println("Error sending alert:", err)
     }
 }
 
